@@ -17,6 +17,7 @@ jobs:
                 if [ $count -lt 3 ]; then
                   echo "Defina pelo menos 3 métricas"
                   exit 1
+                fi
 
     simular-metricas:
         runs-on: ubuntu-latest
