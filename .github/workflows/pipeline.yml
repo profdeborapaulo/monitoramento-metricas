@@ -40,7 +40,7 @@ jobs:
         run: python scripts/simular_metricas.py
 
       - name: Publicar resultados
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: resultados-metricas
           path: resultados.json
