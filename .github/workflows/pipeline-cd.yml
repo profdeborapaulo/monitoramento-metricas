@@ -1,0 +1,16 @@
+name: Deploy (Simulado)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build
+        run: echo "Gerando artefatos..."
+
+      - name: Deploy
+        run: echo "Deploy simulado para aula!"

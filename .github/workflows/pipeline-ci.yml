@@ -1,0 +1,43 @@
+name: Pipeline de Monitoramento
+
+on: [push, pull_request]
+
+jobs:
+  validar-indicadores:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar arquivo de indicadores
+        run: |
+          if [ ! -f docs/indicadores.md ]; then
+            echo "Arquivo indicadores.md não encontrado!"
+            exit 1
+          fi
+          count=$(grep -c "-" docs/indicadores.md)
+          if [ $count -lt 3 ]; then
+            echo "Defina pelo menos 3 métricas"
+            exit 1
+          fi
+  simular-metricas:
+    runs-on: ubuntu-latest
+    needs: validar-indicadores
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Instalar dependências
+        run: pip install --upgrade pip
+
+      - name: Executar simulação
+        run: python scripts/simular_metricas.py
+
+      - name: Publicar resultados
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-metricas
+          path: resultados.json
